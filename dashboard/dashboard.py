@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
 st.set_page_config(page_title="Bike Sharing Dashboard", page_icon="🚲", layout="wide")
 
@@ -24,10 +25,24 @@ def clean_data(df):
     df_clean = df[(df['cnt'] >= lower_bound) & (df['cnt'] <= upper_bound)]
     return df_clean
 
+
+# Mengambil path direktori file dashboard.py
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Gabungkan dengan nama file day.csv
+file_path = os.path.join(current_dir, 'day.csv')
+
+# Muat dataset menggunakan path absolute
+df = pd.read_csv(file_path)
 st.write("Memuat data...")  # User feedback
 with st.spinner("Loading data..."):  # Loading indicator
     raw_df = load_data()
 st.write("Data berhasil dimuat!")  # User feedback
+
+# Mengambil path direktori file dashboard.py
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Gabungkan dengan nama file day.csv
+file_path = os.path.join(current_dir, 'day.csv')
 
 df = clean_data(raw_df)
 
