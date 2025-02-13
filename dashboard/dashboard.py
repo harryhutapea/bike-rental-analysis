@@ -25,17 +25,9 @@ def clean_data(df):
     return df_clean
 
 st.write("Memuat data...")  # User feedback
-with st.spinner("Loading data..."):
-    try:
-        raw_df = load_data()
-        st.write("Data berhasil dimuat!")  # User feedback
-    except FileNotFoundError:
-        st.error("File day.csv tidak ditemukan. Pastikan file ini ada di direktori yang sama dengan script Anda dan sudah di-commit ke repository GitHub Anda.")
-        st.stop()  # Stop execution if file not found
-    except Exception as e:  # Catch other potential errors
-        st.exception(e)
-        st.stop()
-
+with st.spinner("Loading data..."):  # Loading indicator
+    raw_df = load_data()
+st.write("Data berhasil dimuat!")  # User feedback
 
 df = clean_data(raw_df)
 
@@ -48,3 +40,47 @@ weather_filter = st.sidebar.selectbox(
         '1': 'Cerah',
         '2': 'Mendung',
         '3': 'Hujan Ringan/Salju',
+        '4': 'Hujan Lebat/Salju'
+    }.get(x, x)
+)
+workingday_filter = st.sidebar.radio(
+    "Pilih Tipe Hari",
+    options=['0', '1'],
+    format_func=lambda x: "Akhir Pekan" if x == '0' else "Hari Kerja"
+)
+
+# Filter data
+df_filtered = df[(df['weathersit'] == weather_filter) & (df['workingday'] == workingday_filter)]
+
+# Main content
+st.title("Bike Sharing Dashboard")
+st.markdown("""
+Dashboard ini menampilkan visualisasi dari data penyewaan sepeda harian.
+Gunakan filter di sidebar untuk menyesuaikan kondisi cuaca dan tipe hari.
+""")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("Pengaruh Cuaca terhadap Penyewaan Sepeda Harian")
+    fig, ax = plt.subplots(figsize=(8, 5))  # Create figure and axes
+    sns.boxplot(x='weathersit', y='cnt', data=df, palette='coolwarm', ax=ax) # Use ax
+    ax.set_title('Pengaruh Cuaca terhadap Penyewaan Sepeda Harian')
+    ax.set_xlabel('Kondisi Cuaca (1=Cerah, 2=Mendung, 3=Hujan Ringan/Salju, 4=Hujan Lebat/Salju)')
+    ax.set_ylabel('Jumlah Penyewaan')
+    plt.tight_layout() # Important!
+    st.pyplot(fig)  # Pass the figure to st.pyplot
+
+with col2:
+    st.subheader("Pola Peminjaman Sepeda: Hari Kerja vs. Akhir Pekan")
+    fig, ax = plt.subplots(figsize=(8, 5)) # Create figure and axes
+    sns.boxplot(x='workingday', y='cnt', data=df, palette='muted', ax=ax)  # Use ax
+    ax.set_title('Pola Peminjaman Sepeda: Hari Kerja vs. Akhir Pekan')
+    ax.set_xlabel('Hari Kerja (0 = Akhir Pekan, 1 = Hari Kerja)')
+    ax.set_ylabel('Jumlah Penyewaan')
+    plt.tight_layout() # Important!
+    st.pyplot(fig) # Pass the figure to st.pyplot
+
+
+st.subheader("Data Penyewaan Sepeda (Filtered)")
+st.dataframe(df_filtered.head(20)) # Limit displayed rows if needed
