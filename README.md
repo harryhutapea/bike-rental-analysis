@@ -14,9 +14,9 @@ Proyek ini mencakup seluruh proses analisis data mulai dari pengumpulan data, pe
 Bike-Sharing-Data-Analysis/
 ├── dashboard/
 │   └── dashboard.py       # Skrip dashboard interaktif menggunakan Streamlit
-    └── main_data.csv
+│   └── main_data.csv
 ├── data/                  # Folder berisi file CSV (misalnya: day.csv)
-    └── day.csv
+│   └── day.csv
 ├── notebook.ipynb         # Jupyter Notebook berisi proses analisis data
 ├── README.md              # File ini
 └── requirements.txt       # Daftar library Python yang dibutuhkan
