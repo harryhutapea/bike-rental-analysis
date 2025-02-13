@@ -11,7 +11,7 @@ st.set_page_config(
     layout="wide"
 )
 
-@st.cache_data(allow_output_mutation=True)
+@st.cache_data
 def load_data():
     # Memuat dataset penyewaan sepeda
     df = pd.read_csv('day.csv')
