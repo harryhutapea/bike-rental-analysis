@@ -44,7 +44,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # Gabungkan dengan nama file day.csv
 file_path = os.path.join(current_dir, 'day.csv')
 
-df = clean_data(raw_df)
+df = clean_data(file_path)
 
 # Sidebar: Filter Data
 st.sidebar.header("Filter Data")
