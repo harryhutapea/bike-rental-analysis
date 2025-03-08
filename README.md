@@ -8,6 +8,28 @@ Proyek ini bertujuan untuk menganalisis dataset penyewaan sepeda harian yang men
 
 Proyek ini mencakup seluruh proses analisis data mulai dari pengumpulan data, pembersihan data, eksplorasi data, hingga pembuatan visualisasi interaktif menggunakan Streamlit. Selain itu, disediakan juga dashboard interaktif untuk memudahkan eksplorasi temuan secara real-time.
 
+## Setup Environment - Anaconda
+```
+conda create --name main-ds python=3.9
+conda activate main-ds
+pip install -r requirements.txt
+```
+
+## Setup Environment - Shell/Terminal
+```
+mkdir proyek_analisis_data
+cd proyek_analisis_data
+pipenv install
+pipenv shell
+pip install -r requirements.txt
+```
+
+## Run steamlit app
+```
+streamlit run dashboard.py
+```
+
+
 ## Struktur Folder
 
 ```plaintext
